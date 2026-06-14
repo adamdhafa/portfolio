@@ -1,0 +1,298 @@
+:root {
+  --cursor-x: 50%;
+  --cursor-y: 50%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100vw;
+}
+
+/* smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overflow: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ==========================================
+   ANIMASI LOADING (PRELOADER)
+   ========================================== */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000; /* Hitam pekat agar match dengan tema webmu */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Lapisan tertinggi di atas navbar */
+  transition:
+    opacity 0.6s ease,
+    visibility 0.6s ease; /* Transisi saat fade out */
+}
+
+/* Lingkaran Spinner yang berputar */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: #fafafa; /* Warna lingkaran yang berputar */
+  animation: spin 1s ease-in-out infinite;
+}
+
+.loading-text {
+  color: #fafafa;
+  font-family: "Plus Jakarta Sans";
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-top: 15px;
+  text-transform: uppercase;
+}
+
+/* Keyframes untuk efek berputar */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Class bantuan untuk menyembunyikan loader via JS */
+#preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+body {
+  font-family: "Plus Jakarta Sans";
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 60px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  color: #fafafa;
+  font-size: 14px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.nav-socmed {
+  display: flex;
+  list-style: none;
+  gap: 4px;
+}
+
+.nav-page {
+  display: flex;
+  list-style: none;
+  gap: 4px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%; /* Tambahkan ini untuk menempatkan di tengah secara vertikal */
+
+  /* Update transform untuk menggeser sumbu X (kiri-kanan) dan Y (atas-bawah) */
+  transform: translate(-50%, -50%);
+}
+
+/* button */
+#button {
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  color: #fafafa;
+  letter-spacing: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-border-radius: 24px;
+  -moz-border-radius: 24px;
+  -ms-border-radius: 24px;
+  -o-border-radius: 24px;
+}
+
+#button:hover {
+  opacity: 0.7;
+}
+
+#heroSection {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 50px;
+  overflow: hidden;
+}
+
+/* Layer 1: Background Hitam Putih (Base) */
+.hero-bg-bw {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 30%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%),
+    linear-gradient(to left, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%),
+    url("/img/heroimg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: grayscale(100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Layer 2: Background Berwarna yang di-reveal Senter */
+.hero-reveal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 30%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%),
+    url("/img/heroimg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 2;
+
+  /* Efek lingkaran senter smooth */
+  mask-image: radial-gradient(
+    circle 400px at var(--cursor-x) var(--cursor-y),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.5) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 400px at var(--cursor-x) var(--cursor-y),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.5) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+}
+
+/* ==========================================
+   DETAIL CONTAINER (Tepat di bawah Title & Sejajar)
+   ========================================== */
+.detailContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /*Ratakiridanratakanan*/
+  align-items: flex-start;
+  margin-top: 2rem;
+  z-index: 99;
+  padding: 0 40px 40px 40px;
+}
+#specialist {
+  padding-left: 20px;
+  color: #fafafa;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+}
+
+#role {
+  padding-right: 20px;
+  color: #fafafa;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: right; /* Memastikan teks kanan rapi rata kanan */
+}
+
+/* ==========================================
+   CONTENT CONTAINER (Paling Bawah Layar)
+   ========================================== */
+.contentContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Memaksa semua konten hinggap di bawah layar */
+  padding: 0 40px 40px 40px; /* Samping 40px (match dengan navbar), bawah 40px */
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* ==========================================
+   TITLE CONTAINER (Mengapit Kiri, Tengah, Kanan)
+   ========================================== */
+.titleContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-end; /* Menjaga seluruh elemen rata bawah */
+  z-index: 10;
+}
+
+.titleContainer h1 {
+  font-size: 10em;
+  line-height: 0.9;
+  color: #fafafa;
+  font-weight: 800;
+  cursor: default;
+  flex-shrink: 0; /* Mencegah teks nama menciut saat layar mengecil */
+}
+
+/* Tambahkan sedikit margin kiri/kanan jika teks terlalu menempel ke pinggir layar */
+
+.miniShowcase {
+  flex-grow: 1; /* Mengambil seluruh sisa ruang kosong di tengah */
+}
